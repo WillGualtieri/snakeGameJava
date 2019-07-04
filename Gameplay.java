@@ -69,7 +69,7 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener
 			// draw border for gameplay
 			g.setColor(Color.white);
 			g.drawRect(24, 74, 851, 577);
-			
+			git 
 			// draw background for the gameplay
 			g.setColor(Color.black);
 			g.fillRect(25, 75, 850, 575);
@@ -110,26 +110,134 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener
 		} // paint & graphics
 
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+			public void actionPerformed(ActionEvent e) {
+				time.start();
+				if(right)
+				{
+					for(int r = lengthOfSnake - 1; r > 0; r--)
+					{
+						snakeylength[r + 1] = snakeylength[r];
+					}
+					for(int r = lengthOfSnake; r > 0; r--)
+					{
+						if(r == 0)
+						{
+							snakexlength[r] = snakexlength[r] + 25;							
+						}
+						else
+						{
+							snakexlength[r] = snakexlength[r - 1]
+						}
+						if(snakexlength[r] > 850)
+						{
+							snakexlength[r] = 25;
+						}
+						
+						repaint();
+					}
+				}
+				
+				if(left)
+				{
+					
+				}
+				
+				if(up)
+				{
+					
+				}
+				
+				if(down)
+				{
+					
+				}
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
 				
 			}
 
 			@Override
-			public void keyPressed(KeyEvent arg0) {
-				// TODO Auto-generated method stub
+			public void keyReleased(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_RIGHT)
+				{
+					moves++;
+					right = true;
+					if(!left)
+					{
+						right = true;
+					}
+					else
+					{
+						right = false;
+						left = true;
+					}
+					
+					left = false;
+					up = false;
+					down = false;
+				}
+				if(e.getKeyCode() == KeyEvent.VK_LEFT)
+				{
+					moves++;
+					left = true;
+					if(!right)
+					{
+						left = true;
+					}
+					else
+					{
+						left = false;
+						right = true;
+					}
+					
+					up = false;
+					down = false;
+				}
+				if(e.getKeyCode() == KeyEvent.VK_UP)
+				{
+					moves++;
+					up = true;
+					if(!down)
+					{
+						up = true;
+					}
+					else
+					{
+						up = false;
+						down = true;
+					}
+					
+					left = false;
+					right = false;
+				}
+				
+				if(e.getKeyCode() == KeyEvent.VK_DOWN)
+				{
+					moves++;
+					down = true;
+					if(!up)
+					{
+						down = true;
+					}
+					else
+					{
+						down = false;
+						up = true;
+					}
+					
+					left = false;
+					right = false;
+				}
+					
 				
 			}
 
 			@Override
-			public void keyReleased(KeyEvent arg0) {
-				// TODO Auto-generated method stub
+			public void keyTyped(KeyEvent e) {
 				
-			}
-
-			@Override
-			public void keyTyped(KeyEvent arg0) {
-				// TODO Auto-generated method stub
 				
 			}
 			
