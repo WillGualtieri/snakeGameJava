@@ -12,24 +12,31 @@ import java.awt.event.KeyListener;
 public class Gameplay extends JPanel implements KeyListener, ActionListener
 {
 	
-	private int[] snakexlength = new int[750];
-	private int[] snakeylength = new int[750];
+	private int[] snakeXLength = new int[750];
+	private int[] snakeYLength = new int[750];
 	
 	private boolean left = false;
 	private boolean right = false;
 	private boolean up = false;
 	private boolean down = false;
 	
-	private ImageIcon rightmouth;
-	private ImageIcon upmouth;
-	private ImageIcon downmouth;
-	private ImageIcon leftmouth;
+	private ImageIcon rightMouth;
+	private ImageIcon upMouth;
+	private ImageIcon downMouth;
+	private ImageIcon leftMouth;
 	
 	private int lengthOfSnake = 3;
 	
 	private Timer timer;
 	private int delay = 100;
-	private ImageIcon snakeimage;
+	private ImageIcon snakeImage;
+	
+	// enemy position
+	private int [] enemyXPos = (25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375,
+			400, 425, 450, 475, 500, 525, 550, 575, 600, 625, 650, 
+			675, 700, 725, 750, 775, 800, 825, 850);
+	private int [] enemyYPos = (25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375,
+			400, 425, 450, 475, 500, 525, 550, 575, 600, 625);
 	
 	private int moves = 0;
 	
@@ -49,13 +56,13 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener
 			// Sets default position
 			if(moves == 0)
 			{
-				snakexlength[2] = 50;
-				snakexlength[1] = 75;
-				snakexlength[0] = 100;
+				snakeXLength[2] = 50;
+				snakeXLength[1] = 75;
+				snakeXLength[0] = 100;
 				
-				snakeylength[2] = 100;
-				snakeylength[1] = 100;
-				snakeylength[0] = 100;
+				snakeYLength[2] = 100;
+				snakeYLength[1] = 100;
+				snakeYLength[0] = 100;
 			}
 			
 			// draw title image border
@@ -69,40 +76,40 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener
 			// draw border for gameplay
 			g.setColor(Color.white);
 			g.drawRect(24, 74, 851, 577);
-			git 
+			 
 			// draw background for the gameplay
 			g.setColor(Color.black);
 			g.fillRect(25, 75, 850, 575);
 			
-			rightmouth = new ImageIcon("rightmouth.png");
-			rightmouth.paintIcon(this, g, snakexlength[0], snakeylength[0]);
+			rightMouth = new ImageIcon("rightmouth.png");
+			rightMouth.paintIcon(this, g, snakeXLength[0], snakeYLength[0]);
 			
 			for(int a = 0; a < lengthOfSnake; a++)
 			{
 				if(a==0 && right)
 				{
-					rightmouth = new ImageIcon("rightmouth.png");
-					rightmouth.paintIcon(this, g, snakexlength[a], snakeylength[a]);
+					rightMouth = new ImageIcon("rightmouth.png");
+					rightMouth.paintIcon(this, g, snakeXLength[a], snakeYLength[a]);
 				}
 				if(a==0 && left)
 				{
-					leftmouth = new ImageIcon("leftmouth.png");
-					leftmouth.paintIcon(this, g, snakexlength[a], snakeylength[a]);
+					leftMouth = new ImageIcon("leftmouth.png");
+					leftMouth.paintIcon(this, g, snakeXLength[a], snakeYLength[a]);
 				}
 				if(a==0 && down)
 				{
-					downmouth = new ImageIcon("downmouth.png");
-					downmouth.paintIcon(this, g, snakexlength[a], snakeylength[a]);
+					downMouth = new ImageIcon("downmouth.png");
+					downMouth.paintIcon(this, g, snakeXLength[a], snakeYLength[a]);
 				}
 				if(a==0 && up)
 				{
-					upmouth = new ImageIcon("upmouth.png");
-					upmouth.paintIcon(this, g, snakexlength[a], snakeylength[a]);
+					upMouth = new ImageIcon("upmouth.png");
+					upMouth.paintIcon(this, g, snakeXLength[a], snakeYLength[a]);
 				}
 				if(a != 0)
 				{
-					snakeimage = new ImageIcon("snakeimage.png");
-					snakeimage.paintIcon(this, g, snakexlength[a], snakeylength[a]);
+					snakeImage = new ImageIcon("snakeimage.png");
+					snakeImage.paintIcon(this, g, snakeXLength[a], snakeYLength[a]);
 				}
 			}
 			
@@ -110,46 +117,106 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener
 		} // paint & graphics
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				time.start();
-				if(right)
+			public void actionPerformed(ActionEvent e) { // movement control
+				timer.start();
+				if(right) // right movement
 				{
-					for(int r = lengthOfSnake - 1; r > 0; r--)
+					for(int r = lengthOfSnake - 1; r >= 0; r--)
 					{
-						snakeylength[r + 1] = snakeylength[r];
+						snakeYLength[r + 1] = snakeYLength[r];
 					}
-					for(int r = lengthOfSnake; r > 0; r--)
+					for(int r = lengthOfSnake; r >= 0; r--)
 					{
 						if(r == 0)
 						{
-							snakexlength[r] = snakexlength[r] + 25;							
+							snakeXLength[r] = snakeXLength[r] + 25;							
 						}
 						else
 						{
-							snakexlength[r] = snakexlength[r - 1]
-						}
-						if(snakexlength[r] > 850)
+							snakeXLength[r] = snakeXLength[r - 1];
+						} // Deals with when the snake hits the border and makes it relocate to the other side.
+						if(snakeXLength[r] > 850)
 						{
-							snakexlength[r] = 25;
+							snakeXLength[r] = 25;
 						}
 						
 						repaint();
 					}
 				}
 				
-				if(left)
+				if(left) // left movement
 				{
-					
+					for(int r = lengthOfSnake - 1; r >= 0; r--)
+					{
+						snakeYLength[r + 1] = snakeYLength[r];
+					}
+					for(int r = lengthOfSnake; r >= 0; r--)
+					{
+						if(r == 0)
+						{
+							snakeXLength[r] = snakeXLength[r] - 25;							
+						}
+						else
+						{
+							snakeXLength[r] = snakeXLength[r - 1];
+						} // Deals with when the snake hits the border and makes it relocate to the other side.
+						if(snakeXLength[r] < 25)
+						{
+							snakeXLength[r] = 850;
+						}
+						
+						repaint();
+					}
 				}
 				
-				if(up)
+				if(up) // up movement
 				{
-					
+					for(int r = lengthOfSnake - 1; r >= 0; r--)
+					{
+						snakeXLength[r + 1] = snakeXLength[r];
+					}
+					for(int r = lengthOfSnake; r >= 0; r--)
+					{
+						if(r == 0)
+						{
+							snakeYLength[r] = snakeYLength[r] - 25;							
+						}
+						else
+						{
+							snakeYLength[r] = snakeYLength[r - 1];
+						} // Deals with when the snake hits the border and makes it relocate to the other side.
+						if(snakeYLength[r] < 75)
+						{
+							snakeYLength[r] = 625;
+						}
+						
+						repaint();
+					}	
 				}
 				
-				if(down)
+				if(down) // down movement
 				{
-					
+					for(int r = lengthOfSnake - 1; r >= 0; r--)
+					{
+						snakeXLength[r + 1] = snakeXLength[r];
+					}
+					for(int r = lengthOfSnake; r >= 0; r--)
+					{
+						if(r == 0)
+						{
+							snakeYLength[r] = snakeYLength[r] + 25;							
+						}
+						else
+						{
+							snakeYLength[r] = snakeYLength[r - 1];
+						} // Deals with when the snake hits the border and makes it relocate to the other side.
+						if(snakeYLength[r] > 625)
+						{
+							snakeYLength[r] = 75;
+						}
+						
+						repaint();
+					}	
 				}
 			}
 
