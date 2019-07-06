@@ -1,7 +1,7 @@
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-
+import javafx.scene.text.Font;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -33,18 +33,20 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener
 	private ImageIcon snakeImage;
 	
 	// enemy position
-	private int [] enemyXPos = {50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375,
+	private int [] enemyXPos = {75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375,
 			400, 425, 450, 475, 500, 525, 550, 575, 600, 625, 650, 
 			675, 700, 725, 750, 775, 800, 825, 850};
-	private int [] enemyYPos = {50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375,
+	private int [] enemyYPos = {75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375,
 			400, 425, 450, 475, 500, 525, 550, 575, 600, 625};
 	
 	private ImageIcon enemyImage;
 	
 	private Random random = new Random();
 	
-	private int xPos = random.nextInt(33);
-	private int yPos = random.nextInt(22);
+	private int xPos = random.nextInt(32);
+	private int yPos = random.nextInt(21);
+	
+	private int score = 0;
 	
 	private int moves = 0;
 	
@@ -89,6 +91,16 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener
 			g.setColor(Color.black);
 			g.fillRect(25, 75, 850, 575);
 			
+			// draw scores
+			g.setColor(Color.white);
+//			g.setFont(new Font("arial", Font.PLAIN, 14));
+			g.drawString("Scores: " + score, 780, 30);
+			
+			// draw length of snake
+			g.setColor(Color.white);
+//			g.setFont(new Font("arial", Font.PLAIN, 14));
+			g.drawString("Length: " + lengthOfSnake, 780, 50);
+			
 			rightMouth = new ImageIcon("rightmouth.png");
 			rightMouth.paintIcon(this, g, snakeXLength[0], snakeYLength[0]);
 			
@@ -125,9 +137,10 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener
 			
 			if((enemyXPos[xPos] == snakeXLength[0] && enemyYPos[yPos] == snakeYLength[0]))
 			{
+				score = score + 5;
 				lengthOfSnake++;
-				xPos = random.nextInt(33);
-				yPos = random.nextInt(22);
+				xPos = random.nextInt(32);
+				yPos = random.nextInt(21);
 			}
 			
 			enemyImage.paintIcon(this, g, enemyXPos[xPos], enemyYPos[yPos]);
