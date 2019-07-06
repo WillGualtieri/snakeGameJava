@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Random;
 
 public class Gameplay extends JPanel implements KeyListener, ActionListener
 {
@@ -32,11 +33,18 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener
 	private ImageIcon snakeImage;
 	
 	// enemy position
-	private int [] enemyXPos = (25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375,
+	private int [] enemyXPos = {50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375,
 			400, 425, 450, 475, 500, 525, 550, 575, 600, 625, 650, 
-			675, 700, 725, 750, 775, 800, 825, 850);
-	private int [] enemyYPos = (25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375,
-			400, 425, 450, 475, 500, 525, 550, 575, 600, 625);
+			675, 700, 725, 750, 775, 800, 825, 850};
+	private int [] enemyYPos = {50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375,
+			400, 425, 450, 475, 500, 525, 550, 575, 600, 625};
+	
+	private ImageIcon enemyImage;
+	
+	private Random random = new Random();
+	
+	private int xPos = random.nextInt(33);
+	private int yPos = random.nextInt(22);
 	
 	private int moves = 0;
 	
@@ -74,7 +82,7 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener
 			titleImage.paintIcon(this, g, 25, 11);
 			
 			// draw border for gameplay
-			g.setColor(Color.white);
+			g.setColor(Color.DARK_GRAY);
 			g.drawRect(24, 74, 851, 577);
 			 
 			// draw background for the gameplay
@@ -112,6 +120,17 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener
 					snakeImage.paintIcon(this, g, snakeXLength[a], snakeYLength[a]);
 				}
 			}
+			
+			enemyImage = new ImageIcon("enemy.png");
+			
+			if((enemyXPos[xPos] == snakeXLength[0] && enemyYPos[yPos] == snakeYLength[0]))
+			{
+				lengthOfSnake++;
+				xPos = random.nextInt(33);
+				yPos = random.nextInt(22);
+			}
+			
+			enemyImage.paintIcon(this, g, enemyXPos[xPos], enemyYPos[yPos]);
 			
 			g.dispose();
 		} // paint & graphics
