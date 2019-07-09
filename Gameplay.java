@@ -93,12 +93,12 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener
 			
 			// draw scores
 			g.setColor(Color.white);
-//			g.setFont(new Font("arial", Font.PLAIN, 14));
+//			g.setFont(new Font("arial", Font.PLAIN, 14)); // does not work
 			g.drawString("Scores: " + score, 780, 30);
 			
 			// draw length of snake
 			g.setColor(Color.white);
-//			g.setFont(new Font("arial", Font.PLAIN, 14));
+//			g.setFont(new Font("arial", Font.PLAIN, 14)); // does not work
 			g.drawString("Length: " + lengthOfSnake, 780, 50);
 			
 			rightMouth = new ImageIcon("rightmouth.png");
@@ -144,6 +144,26 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener
 			}
 			
 			enemyImage.paintIcon(this, g, enemyXPos[xPos], enemyYPos[yPos]);
+			
+			// for detecting collision
+			for(int b = 1; b < lengthOfSnake; b++)
+			{
+				if(snakeXLength[b] == snakeXLength[0] && snakeYLength[b] == snakeYLength[0])
+				{
+					right = false;
+					left = false;
+					up = false;
+					down = false;
+					
+					g.setColor(Color.white);
+//					g.setFont(new Font("arial", Font.BOLD, 50)); // does not work
+					g.drawString("GAME OVER", 300, 300);
+					
+//					g.setFont(new Font("arial", Font.BOLD, 20)); // does not work
+					g.drawString("'SPACE' TO RESTART", 350, 340);
+					
+				}
+			}
 			
 			g.dispose();
 		} // paint & graphics
@@ -260,6 +280,13 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener
 
 			@Override
 			public void keyReleased(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_SPACE)
+				{
+					moves = 0;
+					score = 0;
+					lengthOfSnake = 3;
+					repaint();
+				} // need to use this to create a pause button
 				if(e.getKeyCode() == KeyEvent.VK_RIGHT)
 				{
 					moves++;
