@@ -94,12 +94,14 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener
 			// draw scores
 			g.setColor(Color.white);
 //			g.setFont(new Font("arial", Font.PLAIN, 14)); // does not work
-			g.drawString("Scores: " + score, 780, 30);
+			g.drawString("SCORE: " + score, 780, 30);
 			
 			// draw length of snake
 			g.setColor(Color.white);
 //			g.setFont(new Font("arial", Font.PLAIN, 14)); // does not work
-			g.drawString("Length: " + lengthOfSnake, 780, 50);
+			g.drawString("LENGTH: " + lengthOfSnake, 780, 50);
+			g.drawString("PRESS ANY DIRECTION TO START/UNPAUSE", 60, 30);
+			g.drawString("PRESS 'P' TO PAUSE", 60, 50);
 			
 			rightMouth = new ImageIcon("rightmouth.png");
 			rightMouth.paintIcon(this, g, snakeXLength[0], snakeYLength[0]);
@@ -145,7 +147,7 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener
 			
 			enemyImage.paintIcon(this, g, enemyXPos[xPos], enemyYPos[yPos]);
 			
-			// for detecting collision
+			// for detecting collision causing game over.
 			for(int b = 1; b < lengthOfSnake; b++)
 			{
 				if(snakeXLength[b] == snakeXLength[0] && snakeYLength[b] == snakeYLength[0])
@@ -157,11 +159,11 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener
 					
 					g.setColor(Color.white);
 //					g.setFont(new Font("arial", Font.BOLD, 50)); // does not work
-					g.drawString("GAME OVER", 300, 300);
+					g.drawString("GAME OVER", 425, 300);
 					
 //					g.setFont(new Font("arial", Font.BOLD, 20)); // does not work
-					g.drawString("'SPACE' TO RESTART", 350, 340);
-					
+					g.drawString("PRESS 'SPACE' TO RESTART", 375, 340);
+							// would like to add a full stop to the game once "GAME OVER" shows.
 				}
 			}
 			
@@ -280,13 +282,29 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener
 
 			@Override
 			public void keyReleased(KeyEvent e) {
+				
+				// p to pause button
+				
+				if(e.getKeyCode() == KeyEvent.VK_P)
+				{
+					right = false;
+					left = false;
+					up = false;
+					down = false;
+				} // Would like to add a "PAUSED" notice but cannot figure out how.
+				
+				// space to restart
+				
 				if(e.getKeyCode() == KeyEvent.VK_SPACE)
 				{
 					moves = 0;
 					score = 0;
 					lengthOfSnake = 3;
 					repaint();
-				} // need to use this to create a pause button
+					xPos = random.nextInt(32);
+					yPos = random.nextInt(21);
+				} 
+				
 				if(e.getKeyCode() == KeyEvent.VK_RIGHT)
 				{
 					moves++;
